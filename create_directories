@@ -1,0 +1,19 @@
+#!/bin/bash
+
+DIRECTORY="Desktop"
+INPUT="/home/bin/hier.txt"
+sudo mkdir "$DIRECTORY"
+cd "$DIRECTORY"
+while IFS= read -r line ;do
+	CMD=$(echo $line | cut -d " " -f 1)
+	OBJ=$(echo $line | cut -d " " -f 2)
+	if [[ "$CMD" = "create-directory" ]]; then
+			sudo mkdir "$OBJ"
+		elif [[ "$CMD" = "delete-directory" ]]; then
+			sudo rm -fr "$OBJ"
+		elif [[ "$CMD" = "delete-file" ]]; then
+			sudo rm -f "$OBJ"
+		else
+			sudo touch "$OBJ"
+	fi	
+done < "$INPUT"
